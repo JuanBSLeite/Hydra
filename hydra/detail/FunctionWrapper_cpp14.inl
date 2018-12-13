@@ -66,7 +66,7 @@ public:
 	 * Copy constructor
 	 */
 	__hydra_host__ __hydra_device__
-	inline	LambdaWrapper(LambdaWrapper<ReturnType(ArgType...), L, N> const& other ):
+	inline	LambdaWrapper(LambdaWrapper<Lambda, ReturnType, N> const& other ):
 	BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
 	{	}
@@ -104,15 +104,6 @@ public:
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
 	}
 
-	template<size_t M=N, typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
-	Evaluate(T a)    const {
-
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
-	}
 
 	template< typename ...T, size_t M=N>
 	__hydra_host__ __hydra_device__
@@ -121,16 +112,6 @@ public:
 
 		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
 								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
-		return fLambda( a...);
-	}
-
-	template<typename ...T, size_t M=N>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
-	Evaluate(T...a)   const {
-
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...> , HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
-						"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
 
