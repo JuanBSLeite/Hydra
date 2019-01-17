@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -37,6 +37,9 @@
 #include<hydra/detail/cufft/ComplexToRealCuFFT.h>
 #include<hydra/detail/cufft/RealToComplexCuFFT.h>
 #include<hydra/detail/cufft/ComplexToComplexCuFFT.h>
+#include<hydra/device/System.h>
+#include<hydra/host/System.h>
+#include<hydra/cuda/System.h>
 
 namespace hydra {
 
@@ -48,6 +51,14 @@ namespace hydra {
 			typedef ComplexToComplexCuFFT<T> C2C;
 			typedef    RealToComplexCuFFT<T> R2C;
 			typedef    ComplexToRealCuFFT<T> C2R;
+
+			typedef    hydra::host::sys_t host_backend_type;
+
+#if HYDRA_DEVICE_SYSTEM==CUDA
+			typedef   hydra::device::sys_t device_backend_type;
+#else
+			typedef   hydra::cuda::sys_t device_backend_type;
+#endif
 		};
 
 

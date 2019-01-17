@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,7 +49,8 @@ GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Inte
 	init.fGaussCall =0;
 	init.fGaussKronrodCall =0;
 
-	GaussKronrodCall result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(fCallTable.begin(), fCallTable.end(),
+	GaussKronrodCall result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(hydra::detail::BackendPolicy<BACKEND>{},
+			fCallTable.begin(), fCallTable.end(),
 			GaussKronrodUnary<FUNCTOR>(functor),   init, GaussKronrodBinary() );
 
 	GReal_t error = std::max(std::numeric_limits<GReal_t>::epsilon(),
