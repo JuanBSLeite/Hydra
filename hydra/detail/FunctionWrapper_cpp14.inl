@@ -35,13 +35,17 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Generic.h>
 #include <type_traits>
-#include <functional>
 #include <hydra/Function.h>
-#include <typeinfo>
-#include <initializer_list>
-#include <array>
+
 
 namespace hydra {
+
+namespace function_wrapper
+{
+
+struct SingleArg{};
+
+}
 
 
 template<typename Lambda, typename ReturnType, size_t N>
@@ -49,6 +53,7 @@ class LambdaWrapper:public BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, Ret
 {
 
 public:
+
 	LambdaWrapper()=delete;
 
 	/**
@@ -93,89 +98,66 @@ public:
 	inline const Lambda& GetLambda() const {return fLambda; }
 
 
-	template< typename ...T, size_t M=N >
+	template< typename T, size_t M=N >
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (M>0), ReturnType >::type
-	Evaluate(T... a)   const {
+	Evaluate(T&& a)   const {
 
 
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
+		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), std::forward<T>(a) );
 	}
 
 
 
-	template< typename ...T, size_t M=N >
+	template< typename T, size_t M=N >
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (M==0), ReturnType >::type
-	Evaluate(T...a)   const {
+	Evaluate(T&& a)   const {
 
-		return fLambda(a...);
+		return fLambda( std::forward<T>(a) );
 	}
-
 
 
 private:
 	L fLambda;
 };
 
-namespace detail {
-
-
-template<typename L, typename ReturnType, typename ...Args, size_t N>
-auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& ,
-		std::array<Parameter, N> const& parameters)
--> LambdaWrapper<ReturnType(Args...), L, N>
-{
-	return LambdaWrapper<ReturnType(Args...), L, N>(f, parameters);
-}
-
-template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType&& , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>&& )
--> LambdaWrapper<ReturnType(Args...), L, 0>
-{
-	return LambdaWrapper<ReturnType(Args...), L, 0>(f);
-}
-
-}  // namespace detail
 
 /**
  * @ingroup functor
- * @brief Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.
- * @param f C++11 lambda implementing the operator()(n, params, args) where n is the number of parameters, params a pointer to the parameter array and args are the arguments.
+ * @brief Function template for wrap a C++14 lambda into a hydra lambda.
+ * @param f single argument C++14 lambda *
  * @param pars parameters.
  * @return LambdaWrapper object.
  */
 template<typename L, typename ...T>
 auto wrap_lambda(L const& f,  T const& ...pars)
--> decltype(detail::wrap_lambda_helper( std::declval<L>(),
-		std::declval<typename detail::function_traits<L>::return_type>() ,
-		std::declval<typename detail::function_traits<L>::args_type>() ,
-		std::declval<std::array<Parameter, sizeof...(T)>>()))
+-> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type, sizeof...(T)>
 {
-	typedef detail::function_traits<L> traits;
-	typename traits::return_type r = typename traits::return_type();
-	typename traits::args_type t;
+	typedef typename std::result_of<L(SingleArg,
+			std::array<Parameter, sizeof...(T)>)>::type result_type;
+
 	std::array<Parameter, sizeof...(T)> parameters{ pars...};
 
-	return detail::wrap_lambda_helper(f, r, t, parameters);
+
+	return LambdaWrapper<L, result_type,0>(f, parameters);
 }
 
 /**
  * @ingroup functor
- * @brief Function template for wrap a C++11 lambda into a hydra lambda.
- * @param f C++11 lambda implementing the operator()(args)
- * @return
+ * @brief Function template for wrap a C++14 lambda into a hydra lambda.
+ * @param f single argument C++14 lambda
+ * @return LambdaWrapper object
  */
 template<typename L>
 auto wrap_lambda(L const& f)
--> decltype(detail::wrap_lambda_helper(std::declval<L>(),
-		std::declval<typename detail::function_traits<L>::return_type>() ,
-		std::declval<typename detail::function_traits<L>::args_type>()))
+-> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type,0>
 {
+	typedef hydra::function_wrapper::SingleArg SingleArg;
 
-	return detail::wrap_lambda_helper(f,
-			typename detail::function_traits<L>::return_type{} ,
-			typename detail::function_traits<L>::args_type{});
+	typedef typename std::result_of<L(SingleArg)>::type result_type;
+
+	return LambdaWrapper<L, result_type,0>(f);
 }
 
 
