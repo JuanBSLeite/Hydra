@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016-2017 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,39 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Chebyshev_polynomials.h
+ * spiline_interpolation.cu
  *
- *  Created on: 05/04/2018
+ *  Created on: 23/12/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef CHEBYSHEV_POLYNOMIALS_H_
-#define CHEBYSHEV_POLYNOMIALS_H_
-
-namespace hydra {
-
-template<size_t N>
-__hydra_host__ __hydra_device__
-inline std::enable_if<N==0, double> Chebyshev_polynomial(const double ){
-
-	return 1.0;
-}
-
-template<size_t N>
-__hydra_host__ __hydra_device__
-inline std::enable_if<N==1, double> Chebyshev_polynomial(const double x){
-
-	return x;
-}
-
-template<size_t N>
-__hydra_host__ __hydra_device__
-inline std::enable_if< (N>2) , double> Chebyshev_polynomial(const double x){
-
-	return 2*x*Chebyshev_polynomial<N-1>(x) - Chebyshev_polynomial<N-2>(x);
-}
-
-}  // namespace hydra
-
-
-#endif /* CHEBYSHEV_POLYNOMIALS_H_ */
+#include<examples/misc/spiline_interpolation.inl>
