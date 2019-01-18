@@ -103,21 +103,11 @@ public:
 	inline typename std::enable_if< (M>0), ReturnType >::type
 	Evaluate(T&& a)   const {
 
-
-<<<<<<< HEAD
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), std::forward<T>(a) );
 	}
 
 
-
-	template< typename T, size_t M=N >
-=======
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a...);
-	}
-
-
 	template< typename ...T, size_t M=N >
->>>>>>> f7ad3bfb4852c93883d4c0f19134fb48ced5298b
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (M==0), ReturnType >::type
 	Evaluate(T&& a)   const {
@@ -138,9 +128,10 @@ private:
  * @param pars parameters.
  * @return LambdaWrapper object.
  */
-template<typename L, typename ...T>
+template<typename L, typename ...T
+    , typename ReturnType = typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type >
 auto wrap_lambda(L const& f,  T const& ...pars)
--> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type, sizeof...(T)>
+-> LambdaWrapper<L, typename std::result_of<L(, Parameter*, hydra::function_wrapper::SingleArg)>::type, sizeof...(T)>
 {
 	typedef typename std::result_of<L(SingleArg,
 			std::array<Parameter, sizeof...(T)>)>::type result_type;
@@ -148,7 +139,7 @@ auto wrap_lambda(L const& f,  T const& ...pars)
 	std::array<Parameter, sizeof...(T)> parameters{ pars...};
 
 
-	return LambdaWrapper<L, result_type,0>(f, parameters);
+	return LambdaWrapper<L, result_type,sizeof...(T)>(f, parameters);
 }
 
 /**
@@ -157,15 +148,11 @@ auto wrap_lambda(L const& f,  T const& ...pars)
  * @param f single argument C++14 lambda
  * @return LambdaWrapper object
  */
-template<typename L>
-auto wrap_lambda(L const& f)
--> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type,0>
+template<typename L, typename ReturnType = typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type >
+LambdaWrapper<L, ReturnType,0>
+wrap_lambda(L const& f)
 {
-	typedef hydra::function_wrapper::SingleArg SingleArg;
-
-	typedef typename std::result_of<L(SingleArg)>::type result_type;
-
-	return LambdaWrapper<L, result_type,0>(f);
+	return LambdaWrapper<L,ReturnType,0>(f);
 }
 
 
