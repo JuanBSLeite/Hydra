@@ -103,21 +103,12 @@ public:
 	inline typename std::enable_if< (M>0), ReturnType >::type
 	Evaluate(T&& a)   const {
 
-
-<<<<<<< HEAD
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), std::forward<T>(a) );
 	}
 
 
 
-	template< typename T, size_t M=N >
-=======
-		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a...);
-	}
-
-
 	template< typename ...T, size_t M=N >
->>>>>>> f7ad3bfb4852c93883d4c0f19134fb48ced5298b
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (M==0), ReturnType >::type
 	Evaluate(T&& a)   const {
