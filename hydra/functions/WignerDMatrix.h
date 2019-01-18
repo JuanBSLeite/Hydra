@@ -172,20 +172,10 @@ public:
 		return fXi;
 	}
 
-	template<typename T>
-	__hydra_dual__ inline
-	double Evaluate(unsigned int, T*x)  const	{
-
-		double beta = x[ArgIndex] ;
-		double r = wignerd(beta);
-
-		return  CHECK_VALUE(r, "beta=%f r=%f", beta, r);
-
-	}
 
 	template<typename T>
 	__hydra_dual__ inline
-	double Evaluate(T x)  const {
+	double Evaluate(T&& x)  const {
 
 		double beta =  get<ArgIndex>(x);
 		double r = wignerd(beta);

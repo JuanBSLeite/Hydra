@@ -77,13 +77,6 @@ public:
 		return  *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , T*x)  const	{
-
-		return  legendre(L, -x[ArgIndex] );
-
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline

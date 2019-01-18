@@ -88,40 +88,10 @@ public:
 		return  *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T* X)  const
-	{
-		double x      = X[ArgIndex];
-		//gathering parameters
-		double gamma  = _par[0];
-		double delta  = _par[1];
-		double xi     = _par[2];
-		//actually only 1/lambda is used
-		double inverse_lambda = 1.0/_par[3];
-
-		// z =  (x-xi)/lambda
-		double z    = (x-xi)*inverse_lambda;
-
-		// A = \frac{\delta}{ \lambda * \sqrt{2\pi} }
-		double A = inverse_lambda*delta*hydra::math_constants::inverse_sqrt2Pi;
-
-		//B = \frac{1}{\sqrt{1 + z^2}}
-		double B = 1.0/::sqrt( 1 + z*z);
-
-		// C = {(\gamma + \delta * \asinh(z) )}^{2}
-		double C = gamma + delta*::asinh(z); C *=C;
-
-		double result = A*B*::exp(-0.5*C);
-
-		return CHECK_VALUE(result, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
-		
-
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline	double Evaluate(T const& X)  const
+	inline	double Evaluate(T&& X)  const
 	{
 		double x     = hydra::get<ArgIndex>(X);
 		//gathering parameters

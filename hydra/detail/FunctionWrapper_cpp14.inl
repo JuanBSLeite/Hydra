@@ -73,15 +73,14 @@ public:
 	inline	LambdaWrapper(LambdaWrapper<Lambda, ReturnType, N> const& other ):
 	BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>(other),
 	fLambda( other.GetLambda())
-	{	}
+	{}
 
 	/**
 	 * Assignment operator
 	 */
 	__hydra_host__ __hydra_device__
 	inline LambdaWrapper<Lambda, ReturnType, N>
-	operator=(LambdaWrapper<Lambda, ReturnType, N> const& other )
-	{
+	operator=(LambdaWrapper<Lambda, ReturnType, N> const& other ) {
 		if(this==&other) return *this;
 
 		BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N>::operator=(other);
@@ -95,7 +94,10 @@ public:
 	 * Get the underlying lambda
 	 */
 	__hydra_host__ __hydra_device__
-	inline const Lambda& GetLambda() const {return fLambda; }
+	inline const Lambda& GetLambda() const {
+
+		return fLambda;
+	}
 
 
 	template< typename T, size_t M=N >
@@ -105,7 +107,6 @@ public:
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), std::forward<T>(a) );
 	}
-
 
 
 	template< typename ...T, size_t M=N >
@@ -129,17 +130,12 @@ private:
  * @param pars parameters.
  * @return LambdaWrapper object.
  */
-template<typename L, typename ...T>
-auto wrap_lambda(L const& f,  T const& ...pars)
--> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type, sizeof...(T)>
-{
-	typedef typename std::result_of<L(SingleArg,
-			std::array<Parameter, sizeof...(T)>)>::type result_type;
+template<typename L, typename ...T,
+     typename ReturnType = typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type >
+LambdaWrapper<L, ReturnType, sizeof...(T)>
+wrap_lambda(L const& f,  T const& ...pars) {
 
-	std::array<Parameter, sizeof...(T)> parameters{ pars...};
-
-
-	return LambdaWrapper<L, result_type,0>(f, parameters);
+	return LambdaWrapper<L, result_type,sizeof...(T)>(f, std::array<Parameter, sizeof...(T)>{ pars...});
 }
 
 /**
@@ -148,15 +144,11 @@ auto wrap_lambda(L const& f,  T const& ...pars)
  * @param f single argument C++14 lambda
  * @return LambdaWrapper object
  */
-template<typename L>
-auto wrap_lambda(L const& f)
--> LambdaWrapper<L, typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type,0>
-{
-	typedef hydra::function_wrapper::SingleArg SingleArg;
+template<typename L, typename ReturnType = typename std::result_of<L(hydra::function_wrapper::SingleArg)>::type >
+LambdaWrapper<L, ReturnType,0>
+wrap_lambda(L const& f) {
 
-	typedef typename std::result_of<L(SingleArg)>::type result_type;
-
-	return LambdaWrapper<L, result_type,0>(f);
+	return LambdaWrapper<L,ReturnType,0>(f);
 }
 
 

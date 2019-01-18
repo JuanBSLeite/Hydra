@@ -60,7 +60,7 @@ namespace hydra {
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T legendre(unsigned n, const T x);
+inline T legendre(unsigned n, const T& x);
 
 /**
  * Implementation of Laguerre polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -73,7 +73,7 @@ inline T legendre(unsigned n, const T x);
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T laguerre(unsigned n, const T x);
+inline T laguerre(unsigned n, const T& x);
 
 /**
  * Implementation of Chebychev polynomials of first kind \f$ P_n(n) \f$ using the recursive relation
@@ -86,7 +86,7 @@ inline T laguerre(unsigned n, const T x);
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_1st_kind(unsigned n, const T x);
+inline T chebychev_1st_kind(unsigned n, const T& x);
 
 /**
  * Implementation of Chebychev polynomials of second kind \f$ P_n(n) \f$ using the recursive relation
@@ -99,7 +99,7 @@ inline T chebychev_1st_kind(unsigned n, const T x);
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_2nd_kind(unsigned n, const T x);
+inline T chebychev_2nd_kind(unsigned n, const T& x);
 
 /**
  * Implementation of Hermite polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -112,7 +112,7 @@ inline T chebychev_2nd_kind(unsigned n, const T x);
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T hermite(unsigned n, const T x);
+inline T hermite(unsigned n, const T& x);
 
 /**
  * Recurrence relation|recurrence relation]] for the Jacobi polynomials of fixed ''α'',''β'' is:<ref name=sz/>
@@ -126,12 +126,12 @@ for ''n'' = 2, 3, ....
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T jacobi(double a, double b, unsigned n, const T x);
+inline T jacobi(double a, double b, unsigned n, const T& x);
 
 
 template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
+inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T& theta);
 
 
 }  // namespace hydra

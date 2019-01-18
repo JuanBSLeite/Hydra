@@ -78,19 +78,7 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
-
-		double arg   = (x[ArgIndex] - _par[0]);
-		double ratio = (arg/_par[0]);
-		double val   = arg>0 ? (1- ::exp(-arg/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1) : 0;
-
-		return  CHECK_VALUE( (val>0 ? val : 0), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
-
-	}
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
+	inline double Evaluate(T&& x)  const {
 
 		double arg   = get<ArgIndex>(x) - _par[0];
 		double ratio = (arg/_par[0]);

@@ -100,23 +100,11 @@ public:
 		return  *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const {
-
-		double m  = x[ArgIndex]; //mass
-		double m0 = _par[0]; //resonance mass
-		double c  = _par[1]; //slope
-		double p  = _par[2]; //power
-
-
-		return  CHECK_VALUE( (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))),\
-				"par[0]=%f, par[1]=%f, _par[2]=%f", _par[0], _par[1], _par[2]) ;
-	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(T&& x)  const {
+
 		double m  = hydra::get<ArgIndex>(x); //mass
 		double m0 = _par[0]; //resonance mass
 		double c  = _par[1]; //slope

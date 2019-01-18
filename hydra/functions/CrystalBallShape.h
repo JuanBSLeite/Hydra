@@ -81,29 +81,10 @@ public:
 		return  *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T*x)  const
-	{
-		double m     = x[ArgIndex]; //mass
-		double mean  = _par[0];
-		double sigma = _par[1];
-		double alpha = _par[2];
-		double N     = _par[3];
-
-		double t = (alpha < 0.0) ? (m-mean)/sigma:(mean-m)/sigma;
-		double abs_alpha = fabs(alpha);
-
-
-		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
-				pow(N/abs_alpha, N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
-
-		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline	double Evaluate(T x)  const
+	inline	double Evaluate(T&& x)  const
 	{
 		double m     = hydra::get<ArgIndex>(x); //mass
 		double mean  = _par[0];

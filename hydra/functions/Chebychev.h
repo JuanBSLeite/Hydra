@@ -91,19 +91,6 @@ public:
 		return *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T* x)  const
-	{
-		double coefs[Order+1]{};
-		for(unsigned int i =0; i<Order+1; i++)
-			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
-
-		double y = -1.0 + 2.0*(x[ArgIndex] - fMinimum)/( fMaximum- fMinimum);
-
-		double r = polynomial(coefs, y);
-		return  CHECK_VALUE(r, "result =%f", r) ;
-	}
 
 	__hydra_host__ __hydra_device__
 	double GetMaximum() const {
@@ -126,7 +113,7 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const
+	inline double Evaluate(T&& x)  const
 	{
 		double coefs[Order+1]{};
 		for(unsigned int i =0; i<Order+1; i++)

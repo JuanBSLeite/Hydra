@@ -101,29 +101,10 @@ public:
 	  return *this;
     }
 
-  template<typename T>
-  __hydra_host__ __hydra_device__
-  inline double Evaluate(unsigned int, T*x)  const	{
-
-	  double X     = x[ArgIndex] ;
-
-	  double mu    = _par[0];
-	  double sigma = _par[1];
-	  double A1    = _par[2];
-	  double N1    = _par[3];
-	  double A2    = _par[4];
-	  double N2    = _par[5];
-	  double l     = _par[6];
-	  double beta  = _par[7];
-
-	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
-			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
-
-  }
 
   template<typename T>
   __hydra_host__ __hydra_device__
-  inline double Evaluate(T x)  const {
+  inline double Evaluate(T&& x)  const {
 
 	  double X =  get<ArgIndex>(x);
 

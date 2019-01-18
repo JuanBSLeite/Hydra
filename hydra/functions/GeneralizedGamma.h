@@ -97,24 +97,7 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T*x)  const	{
-
-		const double X = x[ArgIndex] - _par[0];
-
-		const double A = _par[1];
-		const double B = _par[2];
-		const double C = _par[3];
-
-		const double r = detail::SafeGreaterThan(X, 0.0, detail::machine_eps_f64() ) ?
-				A*::fabs(C)*::pow(A*X, B*C-1.0)*::exp(-::pow(A*X, C))/::tgamma(B): 0.0;
-
-		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]);
-
-	}
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
+	inline double Evaluate(T&& x)  const {
 
 		const double X = x[ArgIndex] - _par[0];
 

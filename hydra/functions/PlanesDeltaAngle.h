@@ -73,20 +73,10 @@ public:
 			return  *this;
 		}
 
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , hydra::Vector4R* p)  const {
-
-		hydra::Vector4R d2 = p[0];
-		hydra::Vector4R d3 = p[1];
-		hydra::Vector4R h1 = p[2];
-
-		return chi_angle( d2, d3, h1);
-
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T p)  const {
+	double Evaluate(T&& p)  const {
 
 		hydra::Vector4R d2 = get<0>(p);
 		hydra::Vector4R d3 = get<1>(p);

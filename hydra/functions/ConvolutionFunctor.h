@@ -246,34 +246,11 @@ public:
 
 	}
 
-	template<typename Type>
-     __hydra_host__ __hydra_device__
-	inline return_type Evaluate(unsigned int n, Type*x) const	{
-
-		Type X = x[ArgIndex];
-
-#ifdef __CUDA_ARCH__
-		if( fInterpolate ) return spiline( fXMin, fXMax, fDeviceData, X);
-		else{
-
-			unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
-			return fDeviceData[i];
-		}
-#else
-		if( fInterpolate ) return spiline( fXMin, fXMax, fHostData, X);
-			else{
-
-				unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
-				return fDeviceData[i];
-			}
-#endif
-
-	}
 
 
 	template<typename Type>
      __hydra_host__ __hydra_device__
-     inline double Evaluate(Type& x) const {
+     inline double Evaluate(Type&& x) const {
 
 		Type X  = get<ArgIndex>(x);
 

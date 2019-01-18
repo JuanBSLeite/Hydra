@@ -215,94 +215,32 @@ public:
 						operator()<T1>( std::forward<T1>(x) );
 	}
 
+protected:
+
+    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
+
 private:
 
-
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	! ( detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-				typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< T>::type
-			>::type >::value ||
-	    detail::is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
-	        typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-	        >::type >::value ) , return_type>::type
-	interface(T&& x)  const
-	{
-		//fNArgs=1;
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_tuple_type<T>::value, return_type>::type
+	interface(T&& x)  const {
 
-		_x=x;
-		return static_cast<const Functor*>(this)->Evaluate(1, &_x);
-	}
-
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
-			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-			  >::type >::value ||
-			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
-			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-			   >::type >::value ) &&
-	        detail::is_homogeneous<
-	        	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,
-	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-	        		>::type
-	        	>::type,
-	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-	        	>::type
-	        >::value, return_type>::type
-	interface(T&& x)  const
-	{
-		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
-		constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size< Tprime >::value;
-
-		first_type Array[ N ];
-
-		detail::tupleToArray(x, &Array[0] );
-		//fNArgs=N;
-		return static_cast<const Functor*>(this)->Evaluate(N, &Array[0]);
-
+		return static_cast<const Functor*>(this)->Evaluate(std::forward<T>(x));
 
 	}
 
 	template<typename T >
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-		typename std::remove_reference<T>::type >::value &&
-	!(detail::is_homogeneous<
-	    typename HYDRA_EXTERNAL_NS::thrust::tuple_element< 0,
-	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	    		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-	    	>::type
-	    >::type,
-	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
-		>::type>::value), return_type>::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<!is_tuple_type<T>::value, return_type>::type
 	interface(T&& x)  const
 	{
-		//fNArgs=0;
-		return static_cast<const Functor*>(this)->Evaluate(x);
+		return static_cast<const Functor*>(this)->Evaluate( HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(x)) );
 	}
-
 
     int fCacheIndex;
 	bool fCached;
     GReal_t fNorm;
-
-protected:
-
-    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
 
 };
 

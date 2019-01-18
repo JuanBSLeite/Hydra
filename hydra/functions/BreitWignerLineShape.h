@@ -183,23 +183,10 @@ public:
 		fRadi = radi;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> Evaluate(unsigned int, const T*x)  const	{
-
-		const double m = x[ArgIndex] ;
-
-		const double resonance_mass  = _par[0];
-		const double resonance_width = _par[1];
-
-		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fBachelorMass) ?
-				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
-
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> Evaluate(T& x)  const {
+	hydra::complex<double> Evaluate(T&& x)  const {
 
 		double m =  get<ArgIndex>(x);
 

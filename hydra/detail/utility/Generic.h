@@ -47,6 +47,17 @@ namespace hydra {
 	template < template <typename...> class Template, typename... Args >
 	struct is_instantiation_of< Template, Template<Args...> > : std::true_type {};
 
+	//-----------------------------------
+	// check if type is a tuple or a tuple_of_references
+	template < typename T >
+	struct is_tuple_type: std::conditional<
+	     is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::tuple,
+	             typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	                typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type >::value ||
+	     is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
+	             typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
+	                typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type >::value,
+	                std::true_type,   std::false_type>::type {};
 
 	//------------------------------------
 	// calculate COND1 && COND2 &&...&& CONDN. In summary a AND of all conditions

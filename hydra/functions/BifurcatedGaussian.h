@@ -81,22 +81,7 @@ public:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const	{
-
-		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
-		double sigmaL = _par[1];
-		double sigmaR = _par[2];
-
-		double coef = ( (x[ArgIndex] - _par[0]) <= 0.0)*(::fabs(sigmaL) > 1e-30)*( -0.5/(sigmaL*sigmaL))
-		            + ( (x[ArgIndex] - _par[0])  > 0.0)*(::fabs(sigmaR) > 1e-30)*( -0.5/(sigmaR*sigmaR)) ;
-
-		return  CHECK_VALUE(exp(coef*m2), "par[0]=%f, par[1]=%f, par[2]=%f", _par[0], _par[1], _par[2]);
-
-	}
-
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
+	double Evaluate(T&& x)  const {
 
 		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
 

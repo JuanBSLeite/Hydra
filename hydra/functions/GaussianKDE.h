@@ -131,20 +131,10 @@ public:
 		return fSpiline;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int n, T*x)  const {
-
-		GReal_t X  = x[ArgIndex];
-
-		GReal_t r = fSpiline( X);
-
-		return  CHECK_VALUE( r, "r=%f",r) ;
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
+	inline double Evaluate(T&& x)  const {
 
 		GReal_t X  = hydra::get<ArgIndex>(x); //mass
 

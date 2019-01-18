@@ -85,15 +85,8 @@ public:
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
-
-		return  CHECK_VALUE( triangle(x[ ArgIndex], _par[0], _par[1],  _par[2] ),"par[0]=%f par[1]=%f par[2]=%f ", _par[0] , _par[1] , _par[2] ) ;
-	}
-
-	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
+	double Evaluate(T&& x)  const	{
 
 		return CHECK_VALUE( triangle(get<ArgIndex>(x), _par[0], _par[1],  _par[2] ),"par[0]=%f par[1]=%f par[2]=%f ", _par[0] , _par[1] , _par[2]  );
 	}

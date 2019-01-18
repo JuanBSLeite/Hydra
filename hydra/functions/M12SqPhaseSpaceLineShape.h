@@ -138,20 +138,9 @@ public:
 			fMotherMass = motherMass;
 		}
 
-
 		template<typename T>
 		__hydra_host__ __hydra_device__ inline
-		double Evaluate(unsigned int , T*x)  const	{
-
-			const double m2 = x[ArgIndex] ;
-
-			return  m2 > pow<double, 2>(fDaughter1Mass+fDaughter2Mass) && m2< pow<double, 2>(fMotherMass-fDaughter3Mass)?LineShape(m2):0.0;
-
-		}
-
-		template<typename T>
-		__hydra_host__ __hydra_device__ inline
-		double Evaluate(T x)  const {
+		double Evaluate(T&& x)  const {
 
 			double m2 =  get<ArgIndex>(x);
 

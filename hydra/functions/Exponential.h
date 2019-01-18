@@ -77,16 +77,10 @@ public:
 		return *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
-
-		return  CHECK_VALUE(::exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
-	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
+	double Evaluate(T&& x)  const	{
 
 		return CHECK_VALUE(::exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
 	}

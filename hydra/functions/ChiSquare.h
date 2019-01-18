@@ -88,20 +88,7 @@ class ChiSquare: public BaseFunctor< ChiSquare<ArgIndex>, double, 1>
 
 		template<typename T>
 		__hydra_host__ __hydra_device__
-		inline double Evaluate(unsigned int, T*m)  const
-		{
-			double ndof  = _par[0];
-			double x     = m[ArgIndex];
-
-			double r = (x > 0)?::pow(x,(ndof/2.0)-1.0) * ::exp(-x/2.0) / (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)):0.0;
-
-
-			return CHECK_VALUE(r, "par[0]=%f", _par[0]) ;
-		}
-
-		template<typename T>
-		__hydra_host__ __hydra_device__
-		inline double Evaluate(T m)  const
+		inline double Evaluate(T&& m)  const
 		{
 			double ndof  = _par[0];
 			double x     = 	get<ArgIndex>(m);
