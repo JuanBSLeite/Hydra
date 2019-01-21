@@ -61,7 +61,7 @@ public:
 	 * @param lambda
 	 * @param parameters
 	 */
-	LambdaWrapper(L const& lambda,	std::array<Parameter, N> const& parameters):
+	LambdaWrapper(Lambda const& lambda,	std::array<Parameter, N> const& parameters):
 				BaseFunctor<LambdaWrapper<Lambda, ReturnType, N>, ReturnType,N >(parameters),
 		fLambda(lambda)
 	{}
@@ -109,17 +109,19 @@ public:
 	}
 
 
-	template< typename ...T, size_t M=N >
+	template< typename T, size_t M=N >
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (M==0), ReturnType >::type
-	Evaluate(T&& a)   const {
+	Evaluate(T&& a)  const  {
 
 		return fLambda( std::forward<T>(a) );
 	}
 
 
 private:
-	L fLambda;
+
+	Lambda fLambda;
+
 };
 
 
@@ -135,7 +137,7 @@ template<typename L, typename ...T,
 LambdaWrapper<L, ReturnType, sizeof...(T)>
 wrap_lambda(L const& f,  T const& ...pars) {
 
-	return LambdaWrapper<L, result_type,sizeof...(T)>(f, std::array<Parameter, sizeof...(T)>{ pars...});
+	return LambdaWrapper<L, ReturnType,sizeof...(T)>(f, std::array<Parameter, sizeof...(T)>{ pars...});
 }
 
 /**
@@ -148,7 +150,7 @@ template<typename L, typename ReturnType = typename std::result_of<L(hydra::func
 LambdaWrapper<L, ReturnType,0>
 wrap_lambda(L const& f) {
 
-	return LambdaWrapper<L,ReturnType,0>(f);
+	return LambdaWrapper<L,ReturnType,0>(f, std::array<Parameter, 0>{});
 }
 
 

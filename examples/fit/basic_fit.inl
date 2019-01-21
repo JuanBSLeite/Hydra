@@ -150,8 +150,10 @@ int main(int argv, char** argc)
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=] __hydra_dual__ (unsigned int n, double* x){
-				return (x[0] > min) && (x[0] < max );
+				[=] __hydra_dual__ (auto x)->bool{
+
+			    auto X = hydra::get<0>(x);
+				return (X > min) && (X < max );
 		});
 
 		auto range  = hydra::apply_filter(data_d,  filter);

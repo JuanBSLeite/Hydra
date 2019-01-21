@@ -17,7 +17,7 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
 #check if compiler is C++11 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("--std=c++14" COMPILER_SUPPORTS_CXX11)
 if(NOT COMPILER_SUPPORTS_CXX11)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
@@ -26,17 +26,17 @@ endif()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
  MESSAGE(STATUS "Setting Clang flags")
- set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O3 -ldl" CACHE STRING "compile flags" FORCE)
   
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
  MESSAGE(STATUS "Setting GCC flags")
- set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
  
  MESSAGE(STATUS "Setting ICC flags")
- set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
   
 #elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
  #MESSAGE(STATUS "===> Compiling with MSVC")

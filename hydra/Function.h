@@ -223,7 +223,7 @@ private:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_tuple_type<T>::value, return_type>::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<detail::is_tuple_type<T>::value, return_type>::type
 	interface(T&& x)  const {
 
 		return static_cast<const Functor*>(this)->Evaluate(std::forward<T>(x));
@@ -232,7 +232,7 @@ private:
 
 	template<typename T >
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<!is_tuple_type<T>::value, return_type>::type
+	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<!detail::is_tuple_type<T>::value, return_type>::type
 	interface(T&& x)  const
 	{
 		return static_cast<const Functor*>(this)->Evaluate( HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(x)) );

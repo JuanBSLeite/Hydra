@@ -47,6 +47,7 @@
 #include <tclap/CmdLine.h>
 
 //this lib
+#include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/FunctionWrapper.h>
@@ -136,10 +137,11 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	//begin raii scope
-	{
+	//{
 
 		//1D device buffer
 		hydra::device::vector<double>  data_d(nentries);
+		hydra::host::vector<double>  data_h(nentries);
 
 		//-------------------------------------------------------
 		//gaussian
@@ -151,12 +153,14 @@ int main(int argv, char** argc)
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=] __hydra_dual__ (unsigned int n, double* x){
-				return (x[0] > min) && (x[0] < max );
-		});
+				[=] __hydra_host__ (auto x) -> bool {
+			          auto X = hydra::get<0>(x);
+			         return ((X > min) && (X < max ));
+				}
+		);
 
-		auto range  = hydra::apply_filter(data_d,  filter);
-
+		auto range  = hydra::apply_filter(data_h,  filter);
+/*
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
@@ -230,7 +234,7 @@ int main(int argv, char** argc)
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-
+*/
 	return 0;
 }
 
