@@ -145,7 +145,8 @@ int main(int argv, char** argc)
 	double sigma =  1.5;
     size_t nbins =  100;
 
-    auto GAUSSIAN3D =  [=] __hydra_dual__ (unsigned int n,double* x ){
+    auto GAUSSIAN3D =  [=] __hydra_dual__ ( auto x ) -> double
+    {
 
     	double g = 1.0;
 
@@ -154,6 +155,7 @@ int main(int argv, char** argc)
     		double m2 = (x[i] - mean )*(x[i] - mean );
     		double s2 = (sigma+i/2.0)*(sigma+i/2.0);
     		g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+
     	}
 
     	return g;
