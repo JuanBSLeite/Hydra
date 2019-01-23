@@ -50,7 +50,7 @@
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Random.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
@@ -152,12 +152,12 @@ int main(int argv, char** argc)
 			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 		//filtering
-		auto filter = hydra::wrap_lambda(
-				[=] __hydra_host__ (auto x) -> bool {
+		auto lb = [=] __hydra_device__ (auto x)  {
 			          auto X = hydra::get<0>(x);
 			         return ((X > min) && (X < max ));
-				}
-		);
+				};
+
+		auto filter = hydra::wrap_lambda<bool>(lb	);
 
 		auto range  = hydra::apply_filter(data_h,  filter);
 /*
