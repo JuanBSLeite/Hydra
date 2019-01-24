@@ -57,7 +57,7 @@ template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Fu
      typename GPU_DATA = typename std::conditional< std::is_convertible<typename HYDRA_EXTERNAL_NS::thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type,
                         HYDRA_EXTERNAL_NS::thrust::system::cuda::tag>::value
          , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type>
-inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::detail::is_iterable<Iterable>::value
+inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::iterable_traits::is_iterable<Iterable>::value
                    // && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
                    //  && (USING_CUDA_BACKEND::value == GPU_DATA::value),
 ,void>::type

@@ -55,7 +55,7 @@ namespace hydra {
  * @return
  */
 template<typename Iterable, typename Functor>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 		 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 apply_filter(Iterable&& container, Functor const& filter);
 

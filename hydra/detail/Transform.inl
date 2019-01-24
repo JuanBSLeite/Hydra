@@ -42,7 +42,7 @@ namespace hydra {
 
 template<typename Iterable_Input, typename Iterable_Output, typename Functor,
 typename Iterator=decltype(std::declval<Iterable_Output>().begin())>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable_Output>::value,
 Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
 transform(Iterable_Input&& iterable_input, Iterable_Output&& iterable_output,  Functor const& unary_functor){
 

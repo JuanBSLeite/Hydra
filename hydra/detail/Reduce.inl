@@ -39,7 +39,7 @@
 namespace hydra {
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<iterable_traits::is_iterable<Iterable>::value,
 typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
 reduce(Iterable&& iterable){
 
@@ -50,7 +50,7 @@ reduce(Iterable&& iterable){
 template<typename Iterable, typename Functor,
  	 	 typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
 		     decltype(std::declval<Iterable>().begin())>::value_type >
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value, T >::type
+typename std::enable_if<iterable_traits::is_iterable<Iterable>::value, T >::type
 reduce(Iterable&& iterable, T const& init, Functor const& binary_functor){
 
 

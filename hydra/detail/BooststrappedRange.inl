@@ -37,7 +37,7 @@ namespace hydra {
 
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
    Range< HYDRA_EXTERNAL_NS::thrust::permutation_iterator<decltype(std::declval<Iterable&>().begin()),
 		 HYDRA_EXTERNAL_NS::thrust::transform_iterator< detail::RndUniform<size_t, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
  ,HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>,size_t > > >>::type

@@ -190,7 +190,7 @@ public:
      * @param output range to store the generated values.
      */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Gauss(double mean, double sigma,Iterable&& output) ;
 
@@ -218,7 +218,7 @@ public:
 	 * @param output range to store the generated values.
 	 */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 						 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Exp(double tau, Iterable&& output );
 
@@ -250,7 +250,7 @@ public:
 	 * @param output range to store the generated values.
 	 */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 							 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	BreitWigner(double mean, double gamma, Iterable&& output)  ;
 
@@ -282,7 +282,7 @@ public:
 	 * @param output range to store the generated values.
 	 */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 	hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Uniform(double min,	double max, Iterable&& output) ;
 
@@ -323,7 +323,7 @@ public:
 	 * @return range with the generated values
 	 */
 	template< typename Iterable, typename FUNCTOR>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 		hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Sample(Iterable&& output, double min, double max, FUNCTOR const& functor);
 
@@ -369,7 +369,7 @@ public:
 	 * @return output range with the generated values
 	 */
 	template<typename Iterable, typename FUNCTOR, size_t N >
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 			hydra::Range<decltype(std::declval<Iterable>().begin())>>::type Sample(Iterable&& output ,
 			std::array<double,N>const& min,
 			std::array<double,N>const& max,

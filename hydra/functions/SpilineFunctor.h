@@ -160,8 +160,8 @@ template<typename Iterable1, typename Iterable2, unsigned int I=0,
          typename Iterator1=decltype(std::declval<Iterable1>().begin()),
          typename Iterator2=decltype(std::declval<Iterable2>().begin())>
 inline typename std::enable_if<
-          hydra::detail::is_iterable<Iterable1>::value &&
-          hydra::detail::is_iterable<Iterable2>::value,
+          hydra::iterable_traits::is_iterable<Iterable1>::value &&
+          hydra::iterable_traits::is_iterable<Iterable2>::value,
           SpilineFunctor<Iterator1, Iterator2, I> >::type
 make_spiline(Iterable1&& x, Iterable2&& y,	placeholders::placeholder<I> arg_index = placeholders::_0  ){
 

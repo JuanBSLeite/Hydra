@@ -34,7 +34,7 @@
 
 namespace hydra {
 
-namespace detail {
+namespace iterable_traits {
 
 // Primary template
 template <typename T, typename U= int>
@@ -44,7 +44,7 @@ struct is_iterable : std::false_type { };
 template <typename T>
 struct is_iterable<T, decltype (
         hydra::begin(std::declval<T&>()) != hydra::end(std::declval<T&>()),
-        void(), //'operator ,' overload ?
+        void(), //'operator ,' overload
         ++std::declval<decltype(hydra::begin(std::declval<T&>()))&>(),
         void(*hydra::begin(std::declval<T&>())),0)> : std::true_type { };
 
@@ -61,7 +61,7 @@ struct is_reverse_iterable<T, decltype (
         ++std::declval<decltype(hydra::rbegin(std::declval<T&>()))&>(),
         void(*hydra::rbegin(std::declval<T&>())),0)> : std::true_type { };
 
-}  // namespace detail
+}  // namespace iterable_traits
 
 }  // namespace hydra
 

@@ -137,7 +137,7 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 	//begin raii scope
-	//{
+	{
 
 		//1D device buffer
 		hydra::device::vector<double>  data_d(nentries);
@@ -160,7 +160,7 @@ int main(int argv, char** argc)
 		auto filter = hydra::wrap_lambda<bool>(lb	);
 
 		auto range  = hydra::apply_filter(data_h,  filter);
-/*
+
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
@@ -234,7 +234,7 @@ int main(int argv, char** argc)
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-*/
+
 	return 0;
 }
 

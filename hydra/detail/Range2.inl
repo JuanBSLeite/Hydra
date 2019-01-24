@@ -147,7 +147,7 @@ make_reverse_range(Iterator begin, Iterator end,Functor const& functor ){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_iterable<Iterable>::value &&
+	iterable_traits::is_iterable<Iterable>::value &&
 	detail::is_hydra_functor<Functor>::value,
  Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
 make_range(Iterable const& iterable,Functor const& functor ){
@@ -159,7 +159,7 @@ make_range(Iterable const& iterable,Functor const& functor ){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_iterable<Iterable>::value &&
+	iterable_traits::is_iterable<Iterable>::value &&
 	detail::is_hydra_functor<Functor>::value,
  Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
 make_range(Iterable&& iterable,Functor const& functor ){
@@ -173,7 +173,7 @@ make_range(Iterable&& iterable,Functor const& functor ){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_reverse_iterable<Iterable>::value &&
+    iterable_traits::is_reverse_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
     Range<decltype(std::declval<Iterable>().rbegin()), Functor> >::type
 make_reverse_range(Iterable const& iterable,Functor const& functor ){
@@ -186,7 +186,7 @@ make_reverse_range(Iterable const& iterable,Functor const& functor ){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_reverse_iterable<Iterable>::value &&
+    iterable_traits::is_reverse_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
     Range<decltype(std::declval<Iterable>().rbegin()), Functor> >::type
 make_reverse_range(Iterable&& iterable,Functor const& functor ){
@@ -199,7 +199,7 @@ make_reverse_range(Iterable&& iterable,Functor const& functor ){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
+    iterable_traits::is_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
     Range<decltype(std::declval< const Iterable>().begin()), Functor> >::type
 operator|(Iterable const& iterable, Functor const& functor){
@@ -212,7 +212,7 @@ operator|(Iterable const& iterable, Functor const& functor){
 
 template<typename Iterable, typename Functor>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
+    iterable_traits::is_iterable<Iterable>::value &&
     detail::is_hydra_functor<Functor>::value ,
     Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
 operator|(Iterable&& iterable, Functor const& functor){
@@ -225,7 +225,7 @@ operator|(Iterable&& iterable, Functor const& functor){
 
 template<typename Iterable>
 typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value ,
+    iterable_traits::is_iterable<Iterable>::value ,
     Range<
      HYDRA_EXTERNAL_NS::thrust::reverse_iterator<
      	 decltype(std::declval<Iterable>().begin()) >>>::type

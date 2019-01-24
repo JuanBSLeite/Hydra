@@ -62,7 +62,7 @@ void  Random<GRND>::Gauss(double mean, double sigma,
 
 template<typename GRND>
 template<typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::Gauss(double mean, double sigma, Iterable&& output)
 {
@@ -118,7 +118,7 @@ void Random<GRND>::Uniform(double min, double max,
 
 template<typename GRND>
 template<typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::Uniform(double min,	double max, Iterable&& output){
 
@@ -174,7 +174,7 @@ void  Random<GRND>::Exp(double tau,  Iterator begin, Iterator end)
 
 template<typename GRND>
 template<typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::Exp(double tau, Iterable&& output){
 
@@ -232,7 +232,7 @@ void  Random<GRND>::BreitWigner(double mean, double gamma,
 
 template<typename GRND>
 template<typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::BreitWigner(double mean, double sigma, Iterable&& output)
 {
@@ -301,7 +301,7 @@ Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 
 template<typename GRND>
 template< typename Iterable, typename FUNCTOR>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::Sample(Iterable&& output, double min, double max, FUNCTOR const& functor)
 {
@@ -381,7 +381,7 @@ Range<Iterator>  Random<GRND>::Sample(Iterator begin, Iterator end ,
 
 template<typename GRND>
 template< typename Iterable, typename FUNCTOR, size_t N >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 Random<GRND>::Sample(Iterable&& output,
 		std::array<double,N>const& min, std::array<double,N>const& max, FUNCTOR const& functor)

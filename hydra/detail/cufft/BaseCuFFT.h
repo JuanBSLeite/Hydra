@@ -121,7 +121,7 @@ public:
 	template<typename Iterable,
 	typename Type =	typename decltype(*std::declval<Iterable&>().begin())::value_type>
 	inline typename std::enable_if<std::is_convertible<InputType, Type>::value
-	                        && detail::is_iterable<Iterable>::value, void>::type
+	                        && iterable_traits::is_iterable<Iterable>::value, void>::type
 	LoadInputData( Iterable&& container)
 	{
 

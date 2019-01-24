@@ -529,7 +529,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid
 }
 
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data){

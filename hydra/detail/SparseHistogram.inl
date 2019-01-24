@@ -516,7 +516,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 
 
 template<typename Iterable, typename T, size_t N , hydra::detail::Backend BACKEND>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
@@ -542,7 +542,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimit
 
 
 template<typename Iterable, typename T, hydra::detail::Backend BACKEND>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
 		Iterable&& iterable){

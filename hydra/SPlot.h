@@ -112,8 +112,8 @@ public:
 	Generate(InputIterator input_begin, InputIterator input_end,	OutputIterator output_begin);
 
 	template<typename InputIterable, typename OutputIterable>
-	inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
-		hydra::detail::is_iterable<OutputIterable>::value,
+	inline typename std::enable_if<	hydra::iterable_traits::is_iterable<InputIterable>::value &&
+		hydra::iterable_traits::is_iterable<OutputIterable>::value,
 	     HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
 	Generate(InputIterable&& input, OutputIterable&& output);
 

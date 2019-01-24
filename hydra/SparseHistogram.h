@@ -411,7 +411,7 @@ public:
 
 
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
 	Fill(Iterable&& container){
 		return this->Fill( std::forward<Iterable>(container).begin(),
@@ -419,8 +419,8 @@ public:
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable1>::value
+	&&  hydra::iterable_traits::is_iterable<Iterable2>::value,
 	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
 	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( std::forward<Iterable1>(container).begin(),
@@ -767,7 +767,7 @@ public:
 
 
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
 	Fill(Iterable&& container){
 		return this->Fill( std::forward<Iterable>(container).begin(),
@@ -775,8 +775,8 @@ public:
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable1>::value
+	&&  hydra::iterable_traits::is_iterable<Iterable2>::value,
 	SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >& >::type
 	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( std::forward<Iterable1>(container).begin(),

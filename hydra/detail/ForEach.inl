@@ -32,16 +32,18 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/Types.h>
+#include <hydra/detail/external/thrust/tuple.h>
 #include <hydra/detail/external/thrust/for_each.h>
 #include <utility>
 
 namespace hydra {
 
 template<typename Iterable, typename Functor>
-	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+	typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 	Range<decltype(std::declval<Iterable&>().begin())>>::type
-for_each(Iterable&& iterable, Functor const& functor)
+for_each(Iterable& iterable, Functor const& functor)
 {
 	HYDRA_EXTERNAL_NS::thrust::for_each( std::forward<Iterable>(iterable).begin(),
 			std::forward<Iterable>(iterable).end(), functor);
@@ -49,6 +51,18 @@ for_each(Iterable&& iterable, Functor const& functor)
 	return make_range( std::forward<Iterable>(iterable).begin(),
 			           std::forward<Iterable>(iterable).end());
 }
+
+
+
+template<typename Tuple, typename Functor>
+auto for_each( Tuple& tuple, Functor const& functor)
+-> typename std::enable_if<detail::is_tuple_type<Tuple>::value,
+ detail::for_each_helper()>::type
+{
+	constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;
+	return detail::for_each_helper( detail::make_index_sequence<N>{}, tuple, functor);
+}
+
 
 
 }  // namespace hydra

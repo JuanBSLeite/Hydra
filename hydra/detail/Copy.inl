@@ -42,8 +42,8 @@ namespace hydra {
 
 
 template<typename Iterable_Source, typename Iterable_Target>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-&& hydra::detail::is_iterable<Iterable_Target>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable_Source>::value
+&& hydra::iterable_traits::is_iterable<Iterable_Target>::value,
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 copy(Iterable_Source&& source, Iterable_Target&& destination)
 {

@@ -149,7 +149,7 @@ make_reverse_range(Iterator begin, Iterator end ){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable>().begin())>>::type
 make_range(Iterable const& container){
 
@@ -158,7 +158,7 @@ make_range(Iterable const& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable>().begin())>>::type
 make_range(Iterable&& container){
 
@@ -168,7 +168,7 @@ make_range(Iterable&& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_reverse_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable>().rbegin())>>::type
 make_reverse_range(Iterable const& container){
 
@@ -177,7 +177,7 @@ make_reverse_range(Iterable const& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_reverse_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable>().rbegin())>>::type
 make_reverse_range(Iterable&& container){
 

@@ -39,7 +39,7 @@
 namespace hydra {
 
 template<typename Iterable, typename Iterator=decltype(std::declval<Iterable>().begin())>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable){
 
@@ -50,7 +50,7 @@ sort(Iterable& iterable){
 
 template<typename Iterable, typename Functor,
 typename Iterator=decltype(std::declval<Iterable>().begin())>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable, Functor const& comparator){
 
@@ -63,7 +63,7 @@ template<typename Iterable,typename Iterable_Key,
 typename Iterator=decltype(std::declval<Iterable>().begin()),
 typename Iterator_Key=decltype(std::declval<Iterable_Key>().begin()),
 typename Value_Key=decltype(*std::declval<Iterator_Key>().begin()) >
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Iterable_Key& keys){
 
@@ -84,7 +84,7 @@ sort_by_key(Iterable& iterable, Iterable_Key& keys){
 template<typename Iterable,typename Iterator_Key, typename Functor,
 typename Iterator=decltype(std::declval<Iterable>().begin()),
 typename Value_Key=decltype(*std::declval<Range<Iterator_Key,Functor>>().begin()) >
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
+typename std::enable_if<hydra::iterable_traits::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor>&& keys){
 

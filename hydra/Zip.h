@@ -44,7 +44,7 @@ namespace hydra {
 
 
 template<typename ...Iterables>
-typename std::enable_if< detail::all_true< detail::is_iterable<Iterables>::value...>::value,
+typename std::enable_if< detail::all_true< iterable_traits::is_iterable<Iterables>::value...>::value,
 Range< HYDRA_EXTERNAL_NS::thrust::zip_iterator<
 	decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::declval<Iterables&>().begin()...))>>>::type
 zip(Iterables&&... iterables){

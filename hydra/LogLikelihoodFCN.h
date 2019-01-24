@@ -121,10 +121,10 @@ auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first
  * @return
  */
 template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables,
-typename U =typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< detail::is_iterable<Iterables>::value...> >::type >
+typename U =typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< iterable_traits::is_iterable<Iterables>::value...> >::type >
 inline typename std::enable_if< (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
 								(!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-								hydra::detail::is_iterable<Iterable>::value &&
+								hydra::iterable_traits::is_iterable<Iterable>::value &&
 								U::value,
 LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval< const Iterable&>().begin()),
                   decltype(std::declval< const Iterables&>().begin())... >>::type
@@ -142,10 +142,10 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable const& points,
  */
 
 template<typename ...Pdfs, typename Iterable, typename ...Iterables,
-typename U = typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< detail::is_iterable<Iterables>::value...> >::type >
+typename U = typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< iterable_traits::is_iterable<Iterables>::value...> >::type >
 inline typename std::enable_if<   (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
 		                          (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-								  hydra::detail::is_iterable<Iterable>::value &&
+								  hydra::iterable_traits::is_iterable<Iterable>::value &&
 								  U::value,
 LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>,
                      decltype(std::declval< const Iterable>().begin()),
@@ -163,10 +163,10 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable const& p
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename ...Iterables,
-typename U = typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< detail::is_iterable<Iterables>::value...> >::type >
+typename U = typename std::conditional<sizeof...(Iterables)==0, std::true_type, detail::all_true< iterable_traits::is_iterable<Iterables>::value...> >::type >
 inline typename std::enable_if< (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
 								(!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-								hydra::detail::is_iterable<Iterable>::value &&
+								hydra::iterable_traits::is_iterable<Iterable>::value &&
 								U::value,
 LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval< const Iterable>().begin()),

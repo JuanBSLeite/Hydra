@@ -146,8 +146,8 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
 template<typename Iterable1, typename Iterable2,typename Type>
 __hydra_host__ __hydra_device__
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value &&
-                       hydra::detail::is_iterable<Iterable2>::value &&
+inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable1>::value &&
+                       hydra::iterable_traits::is_iterable<Iterable2>::value &&
                        std::is_floating_point<typename Iterable1::value_type >::value &&
                        std::is_floating_point<typename Iterable2::value_type >::value,
                        Type >::type

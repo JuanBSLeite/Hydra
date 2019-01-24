@@ -199,7 +199,7 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Evaluate(Vector4R const& mother, Iterable&& iterable, FUNCTOR const& ...functors);
 
@@ -211,8 +211,8 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-	hydra::detail::is_iterable<IterableMother>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value &&
+	hydra::iterable_traits::is_iterable<IterableMother>::value,
 				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Evaluate(IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors);
 
@@ -262,7 +262,7 @@ public:
 	 * @param end Iterator pointing to the end output range.
 	 */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value,
 				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Generate(Vector4R const& mother, Iterable&& events);
 
@@ -273,8 +273,8 @@ public:
 	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
 	 */
 	template<typename IterableMothers, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-		hydra::detail::is_iterable<IterableMothers>::value,
+	inline typename std::enable_if< hydra::iterable_traits::is_iterable<Iterable>::value &&
+		hydra::iterable_traits::is_iterable<IterableMothers>::value,
 					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 	Generate( IterableMothers&& mothers, Iterable&& daughters);
 
