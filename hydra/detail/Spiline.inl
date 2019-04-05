@@ -93,8 +93,8 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 		using HYDRA_EXTERNAL_NS::thrust::min;
 
 		auto iter = detail::spiline::lower_bound(first, last, value);
-
-		size_t i = HYDRA_EXTERNAL_NS::thrust::distance(first, iter);
+		size_t dist_i = HYDRA_EXTERNAL_NS::thrust::distance(first, iter);
+		size_t i = dist_i > 0 ? dist_i - 1: 0;
 
 		size_t N = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
@@ -133,7 +133,7 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 									*min(min(::fabs(s_ip), ::fabs(s_i)), 0.5*::fabs(p_ip) );
 
 		//calculates b
-		const double b_i =  (-2*c_i - c_ip - 3*s_i)/h_i;
+		const double b_i =  (-2*c_i - c_ip + 3*s_i)/h_i;
 
 		//calculates a
 		const double a_i = (c_i + c_ip - 2*s_i)/(h_i*h_i);
